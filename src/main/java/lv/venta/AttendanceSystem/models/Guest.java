@@ -56,21 +56,18 @@ public class Guest {
 		this.name = name;
 		this.surname = surname;
 		this.description = description;
-		this.attendance = new Attendance(this,entered);
 	}
 	public Guest(Date entered) {
 		super();
 		this.name = "null";
 		this.surname = "null";
 		this.description = "null";
-		this.attendance = new Attendance(this,entered);
 	}
 	public Guest() {
 		super();
 		this.name = "null";
 		this.surname = "null";
 		this.description = "null";
-		this.attendance = new Attendance();
 	}
 	
 }

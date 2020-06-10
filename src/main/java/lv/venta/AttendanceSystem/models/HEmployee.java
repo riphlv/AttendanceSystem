@@ -39,7 +39,12 @@ public class HEmployee extends User implements _Employee {
 	public void setHoursWorked(int hoursWorked) {
 		this.hoursWorked = hoursWorked;
 	}
-
+	
+	@Override
+	public String toString() {
+		return "HEmployee [hourlyWage=" + hourlyWage + ", hoursWorked=" + hoursWorked + ", toString()="
+				+ super.toString() + "]";
+	}
 	@Override
 	public float calculatePay(int week) {// TODO week not implemented
 		int overtime = 0;

@@ -10,6 +10,8 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -59,10 +61,11 @@ public abstract class User {
 	public void setAttendance(Collection<Attendance> attendance) {
 		this.attendance = attendance;
 	}
-	public Occupation getJobTitle() {
+	
+	public Occupation getOccupation() {
 		return occupation;
 	}
-	public void setJobTitle(Occupation occupation) {
+	public void setOccupation(Occupation occupation) {
 		this.occupation = occupation;
 	}
 	public int getUser_id() {
@@ -78,8 +81,8 @@ public abstract class User {
 	}
 	public User() {
 		super();
-		this.name = "null";
-		this.surname = "null";
+		this.name = "";
+		this.surname = "";
 		this.gender = null;
 		this.attendance = new ArrayList<>();
 		this.occupation = null;

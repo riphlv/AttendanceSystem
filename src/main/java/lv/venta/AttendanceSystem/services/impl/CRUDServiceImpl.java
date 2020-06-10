@@ -21,7 +21,6 @@ import lv.venta.AttendanceSystem.services._CRUDService;
 public class CRUDServiceImpl implements _CRUDService{
 	@Autowired
 	_AttendanceRepo attendanceRepo;
-	
 	@Autowired
 	_GuestRepo guestRepo;
 	@Autowired
@@ -29,15 +28,18 @@ public class CRUDServiceImpl implements _CRUDService{
 	@Override
 	public void testData() {
 		HEmployee h1 = new HEmployee("Name","Surname", Gender.female, Occupation.Accounting, 12f,0);
-		HEmployee h2 = new HEmployee("Name2","Surname2", Gender.female, Occupation.Accounting, 12f,0);
+		HEmployee h2 = new HEmployee("Name2","Surname2", Gender.male, Occupation.Analyst, 13f,1);
+		
 		SEmployee s1 = new SEmployee("Name3","Surname3",Gender.male,Occupation.Analyst,500f);
 		SEmployee s2 = new SEmployee("Name4","Surname4",Gender.male,Occupation.Analyst,500f);
 		userRepo.save(h1);
 		userRepo.save(h2);
 		userRepo.save(s1);
 		userRepo.save(s2);
+		
 		Guest g1 = new Guest("name", "name2", "description", new Date());
 		guestRepo.save(g1);
+		
 		Attendance a1 = new Attendance(h1,new Date());
 		Attendance a2 = new Attendance(h2,new Date());
 		Attendance a3 = new Attendance(s1,new Date());
@@ -80,6 +82,30 @@ public class CRUDServiceImpl implements _CRUDService{
 	public User updateEmployee(int id) {
 		// TODO Auto-generated method stub
 		return userRepo.findById(id).get();
+	}
+	
+	public void updateHEmployeeByObject(int id, HEmployee employee) {
+		//Or just set employee object the id
+		HEmployee temp = (HEmployee) userRepo.findById(id).get();
+		temp.setAttendance(employee.getAttendance());
+		temp.setGender(employee.getGender());
+		temp.setHourlyWage(employee.getHourlyWage());
+		temp.setHoursWorked(employee.getHoursWorked());
+		temp.setName(employee.getName());
+		temp.setOccupation(employee.getOccupation());
+		temp.setSurname(employee.getSurname());
+		userRepo.save(temp);
+	}
+	public void updateSEmployeeByObject(int id, SEmployee employee) {
+		//Or just set employee object the id
+		SEmployee temp = (SEmployee) userRepo.findById(id).get();
+		temp.setAttendance(employee.getAttendance());
+		temp.setGender(employee.getGender());
+		temp.setWeeklySalary(employee.getWeeklySalary());
+		temp.setName(employee.getName());
+		temp.setOccupation(employee.getOccupation());
+		temp.setSurname(employee.getSurname());
+		userRepo.save(temp);
 	}
 	@Override
 	public Guest updateGuest(int id) {
