@@ -2,17 +2,16 @@ package lv.venta.AttendanceSystem.models;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.Table;
 
 import lv.venta.AttendanceSystem.enums.Gender;
 import lv.venta.AttendanceSystem.enums.Occupation;
 @Entity
-@Table(name="HourlyEmployees")
+//@Table(name="HourlyEmployees")
 public class HEmployee extends User implements _Employee {
 	@Column(name="HourlyWage")
-	float hourlyWage;
+	private float hourlyWage;
 	@Column(name="hoursWorked")
-	int hoursWorked;
+	private int hoursWorked;
 	
 	public HEmployee() {
 		super();

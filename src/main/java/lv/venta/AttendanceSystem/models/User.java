@@ -1,10 +1,14 @@
 package lv.venta.AttendanceSystem.models;
 
 import java.util.ArrayList;
+import java.util.Collection;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -16,18 +20,20 @@ import lv.venta.AttendanceSystem.enums.Occupation;
 public abstract class User {
 	@Column(name="User_ID")
 	@Id
-	@GeneratedValue
-	int user_id;
+	@GeneratedValue(strategy=GenerationType.AUTO)
+	private int user_id;
 	@Column(name="Name")
-	String name;
+	private String name;
 	@Column(name="Surname")
-	String surname;
+	private String surname;
 	@Column(name="Gender")
-	Gender gender;
+	@Enumerated(EnumType.STRING)
+	private Gender gender;
 	@OneToMany(mappedBy="user")
-	ArrayList<Attendance>attendance;
+	private Collection<Attendance>attendance;
 	@Column(name="Occupation")
-	Occupation occupation;
+	@Enumerated(EnumType.STRING)
+	private Occupation occupation;
 	
 	public String getName() {
 		return name;
@@ -47,10 +53,10 @@ public abstract class User {
 	public void setGender(Gender gender) {
 		this.gender = gender;
 	}
-	public ArrayList<Attendance> getAttendance() {
+	public Collection<Attendance> getAttendance() {
 		return attendance;
 	}
-	public void setAttendance(ArrayList<Attendance> attendance) {
+	public void setAttendance(Collection<Attendance> attendance) {
 		this.attendance = attendance;
 	}
 	public Occupation getJobTitle() {

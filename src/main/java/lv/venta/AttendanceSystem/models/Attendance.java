@@ -6,6 +6,7 @@ import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -16,51 +17,58 @@ import javax.persistence.Table;
 public class Attendance {
 	@Column(name="Attendance_ID")
 	@Id
-	@GeneratedValue
-	int attendance_id;
-	@Column(name="Entered")
-	Date entered;
-	@Column(name="Left")
-	Date left;
+	@GeneratedValue(strategy=GenerationType.AUTO)
+	private int attendance_id;
+	@Column(name="RegisterIN")
+	private Date registerIN;
+	@Column(name="RegisterOUT")
+	private Date registerOUT;
 	@OneToOne
-	Guest guest;
+	private Guest guest;
 	@ManyToOne
 	@JoinColumn(name="User_ID")
-	User user;
+	private User user;
 	
 	public Date getEntered() {
-		return entered;
+		return registerIN;
 	}
 	public void setEntered(Date entered) {
-		this.entered = entered;
+		this.registerIN = entered;
 	}
 	public Date getLeft() {
-		return left;
+		return registerOUT;
 	}
 	public void setLeft(Date left) {
-		this.left = left;
+		this.registerOUT = left;
 	}
 	public int getAttendance_id() {
 		return attendance_id;
 	}
 	public Attendance( Date entered, Date left ) {
 		super();
-		this.entered = entered;
-		this.left = left;
+		this.registerIN = entered;
+		this.registerOUT = left;
 	}
-	public Attendance( Date entered ) {
+	public Attendance(User user, Date entered ) {
 		super();
-		this.entered = entered;
-		this.left = null;
+		this.user = user;
+		this.registerIN = entered;
+		this.registerOUT = null;
+	}
+	public Attendance(Guest guest, Date entered ) {
+		super();
+		this.guest = guest;
+		this.registerIN = entered;
+		this.registerOUT = null;
 	}
 	public Attendance() {
 		super();
-		this.entered = null;
-		this.left = null;
+		this.registerIN = null;
+		this.registerOUT = null;
 	}
 	@Override
 	public String toString() {
-		return "Attendance [attendance_id=" + attendance_id + ", entered=" + entered + ", left=" + left + "]";
+		return "Attendance [attendance_id=" + attendance_id + ", entered=" + registerIN + ", left=" + registerOUT + "]";
 	}
 	
 	

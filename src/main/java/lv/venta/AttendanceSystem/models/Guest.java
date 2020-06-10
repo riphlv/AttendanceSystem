@@ -5,6 +5,7 @@ import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -12,17 +13,17 @@ import javax.persistence.Table;
 @Table(name="Guests")
 public class Guest {
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy=GenerationType.AUTO)
 	@Column(name="Guest_ID")
-	int guest_id;
+	private int guest_id;
 	@Column(name="Name")
-	String name;
+	private String name;
 	@Column(name="Surname")
-	String surname;
+	private String surname;
 	@Column(name="Description")
-	String description; //reason visiting establishment
+	private String description; //reason visiting establishment
 	@OneToOne(mappedBy="guest")
-	Attendance attendance;
+	private Attendance attendance;
 	public String getName() {
 		return name;
 	}
@@ -55,14 +56,14 @@ public class Guest {
 		this.name = name;
 		this.surname = surname;
 		this.description = description;
-		this.attendance = new Attendance(entered);
+		this.attendance = new Attendance(this,entered);
 	}
 	public Guest(Date entered) {
 		super();
 		this.name = "null";
 		this.surname = "null";
 		this.description = "null";
-		this.attendance = new Attendance(entered);
+		this.attendance = new Attendance(this,entered);
 	}
 	public Guest() {
 		super();

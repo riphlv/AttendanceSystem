@@ -2,15 +2,14 @@ package lv.venta.AttendanceSystem.models;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.Table;
 
 import lv.venta.AttendanceSystem.enums.Gender;
 import lv.venta.AttendanceSystem.enums.Occupation;
 @Entity
-@Table(name="SalaryEmployees")
+//@Table(name="SalaryEmployees")
 public class SEmployee extends User implements _Employee {
 	@Column(name="WeeklySalary")
-	float weeklySalary;
+	private float weeklySalary;
 	
 	public SEmployee(String name, String surname, Gender gender, Occupation occupation, float weeklySalary) {
 		super(name, surname, gender, occupation);
