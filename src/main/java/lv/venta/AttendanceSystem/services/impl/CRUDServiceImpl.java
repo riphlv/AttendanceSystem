@@ -1,5 +1,6 @@
 package lv.venta.AttendanceSystem.services.impl;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +28,7 @@ public class CRUDServiceImpl implements _CRUDService{
 	_UserRepo userRepo;
 	@Override
 	public void testData() {
+		/*
 		HEmployee h1 = new HEmployee("Name","Surname", Gender.female, Occupation.Accounting, 12f,0);
 		HEmployee h2 = new HEmployee("Name2","Surname2", Gender.male, Occupation.Analyst, 13f,1);
 		
@@ -37,26 +39,36 @@ public class CRUDServiceImpl implements _CRUDService{
 		userRepo.save(s1);
 		userRepo.save(s2);
 		
-		Guest g1 = new Guest("name", "name2", "description", new Date());
+		Guest g1 = new Guest("name", "name2", "description");
 		guestRepo.save(g1);
-		
+		/*
 		Attendance a1 = new Attendance(h1,new Date());
 		Attendance a2 = new Attendance(h2,new Date());
 		Attendance a3 = new Attendance(s1,new Date());
 		Attendance a4 = new Attendance(s2,new Date());
-		Attendance a5 = new Attendance(g1,new Date());
+		
+		Attendance a5 = new Attendance(g1,new Date(), new Date(1000));
+		
 		attendanceRepo.save(a1);
 		attendanceRepo.save(a2);
 		attendanceRepo.save(a3);
 		attendanceRepo.save(a4);
-		attendanceRepo.save(a5);
+		attendanceRepo.save(a5);*/
 	}
 	@Override
 	public void createEmployee(User employee) {
 		userRepo.save(employee);
 	}
 	@Override
-	public boolean createEmployeeAttendance(User user, Date date) {
+	public void createGuest(Guest guest) {
+		Attendance temp = guest.getAttendance();
+		guest.setAttendance(null);
+		guestRepo.save(guest);
+		attendanceRepo.save(new Attendance(guest,temp.getRegisterIN(),temp.getRegisterOUT()));
+		
+	}
+	@Override
+	public boolean createEmployeeAttendance(User user, LocalDateTime date) {
 		if(userRepo.existsById(user.getUser_id())) {
 			return false;
 		}else {
@@ -65,11 +77,11 @@ public class CRUDServiceImpl implements _CRUDService{
 		}
 	}
 	@Override
-	public boolean createGuestAttendance(Guest guest, Date date) {
+	public boolean createGuestAttendance(Guest guest, LocalDateTime date, LocalDateTime date2) {
 		if(guestRepo.existsById(guest.getGuest_id())) {
 			return false;
 		}else {
-			attendanceRepo.save(new Attendance(guest , date));
+			attendanceRepo.save(new Attendance(guest , date, date2));
 			return true;
 		}
 		
@@ -106,6 +118,22 @@ public class CRUDServiceImpl implements _CRUDService{
 		temp.setOccupation(employee.getOccupation());
 		temp.setSurname(employee.getSurname());
 		userRepo.save(temp);
+	}
+	public void updateGuestByObject(int id,int id2, Guest guest) {
+		//Attendance tempAttendance = guest.getAttendance();
+		Attendance tempAttendance = attendanceRepo.findById(id2).get();
+		tempAttendance.setRegisterIN(guest.getAttendance().getRegisterIN());
+		tempAttendance.setRegisterOUT(guest.getAttendance().getRegisterOUT());
+		guest.setAttendance(null);
+		//guestRepo.save(guest);
+		//Or just set employee object the id
+		Guest temp = guestRepo.findById(id).get();
+		temp.setAttendance(guest.getAttendance());
+		temp.setDescription(guest.getDescription());
+		temp.setName(guest.getName());
+		temp.setSurname(guest.getSurname());
+		guestRepo.save(temp);
+		attendanceRepo.save(tempAttendance);
 	}
 	@Override
 	public Guest updateGuest(int id) {

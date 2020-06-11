@@ -1,5 +1,7 @@
 package lv.venta.AttendanceSystem.models;
 
+
+
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -51,23 +53,30 @@ public class Guest {
 	public int getGuest_id() {
 		return guest_id;
 	}
-	public Guest(String name, String surname, String description, Date entered) {
+	public Guest(String name, String surname, String description) {
 		super();
 		this.name = name;
 		this.surname = surname;
 		this.description = description;
+		//this.attendance = new Attendance(entered, left);
 	}
 	public Guest(Date entered) {
 		super();
-		this.name = "null";
-		this.surname = "null";
-		this.description = "null";
+		this.name = "";
+		this.surname = "";
+		this.description = "";
 	}
 	public Guest() {
 		super();
-		this.name = "null";
-		this.surname = "null";
-		this.description = "null";
+		this.name = "";
+		this.surname = "";
+		this.description = "";
 	}
+	@Override
+	public String toString() {
+		return "Guest [guest_id=" + guest_id + ", name=" + name + ", surname=" + surname + ", description="
+				+ description + ", attendance=" + attendance + "]";
+	}
+	
 	
 }

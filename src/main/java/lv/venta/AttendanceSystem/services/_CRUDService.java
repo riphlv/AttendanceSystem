@@ -1,5 +1,6 @@
 package lv.venta.AttendanceSystem.services;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 import lv.venta.AttendanceSystem.models.Attendance;
@@ -12,9 +13,10 @@ public interface _CRUDService {
 	public void testData();
 	
 	public void createEmployee(User employee);
+	public void createGuest(Guest guest);
 	//public void createEmployee(SEmployee employee);
-	public boolean createEmployeeAttendance(User user, Date date);
-	public boolean createGuestAttendance(Guest guest,Date date);
+	public boolean createEmployeeAttendance(User user, LocalDateTime date);
+	public boolean createGuestAttendance(Guest guest,LocalDateTime date, LocalDateTime date2);
 	
 	public Attendance updateAttendance(int id/*, Date left*/);
 	//public Attendance updateAttendance(int id, Date arrived, Date left);
@@ -25,5 +27,7 @@ public interface _CRUDService {
 	public boolean deleteEmployee(int id);
 	public boolean deleteGuest(Guest guest);
 	public boolean deleteGuest(int id);
+
+	
 	
 }
