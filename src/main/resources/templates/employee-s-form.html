@@ -6,8 +6,13 @@
   </head>
   <body>
   <header th:replace="fragments/header :: header"></header>
-  
-  <div style="width:40%; min-width:500px;  margin: auto; margin-top:10px; padding: 10px;" class="rounded border">
+    <!-- container -->
+  <div style="margin:auto;min-width:1000px; width:80%;">
+  <div style="display: inline-block;width:40%; min-width:500px; margin:auto; margin-top:10px; float:left;" class="rounded border">
+  <!-- all users table -->
+  <div th:replace="allUsers :: all-users"></div></div>
+  <!-- new employee form -->
+  <div style="display: inline-block;width:40%; min-width:500px;  margin: auto;margin-left:10px; margin-top:10px; padding: 10px;" class="rounded border">
   <h2>New Salary Employee</h1>
         <form action="#" th:action="@{/admin/newSalaryEmpl}" modelAttribute="employee" th:object="${employee}" method="post">
 		  <div class="form-group">
@@ -45,6 +50,7 @@
 		  
 		  <button type="submit" class="btn btn-primary">Submit</button>
 		</form>
+	</div>
 	</div>
 	<footer th:insert="fragments/footer::footer"> </footer>
  	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>

@@ -1,6 +1,7 @@
 package lv.venta.AttendanceSystem.services.impl;
 
 import java.time.LocalDateTime;
+import java.util.Collection;
 import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +29,7 @@ public class CRUDServiceImpl implements _CRUDService{
 	_UserRepo userRepo;
 	@Override
 	public void testData() {
-		/*
+		
 		HEmployee h1 = new HEmployee("Name","Surname", Gender.female, Occupation.Accounting, 12f,0);
 		HEmployee h2 = new HEmployee("Name2","Surname2", Gender.male, Occupation.Analyst, 13f,1);
 		
@@ -41,19 +42,25 @@ public class CRUDServiceImpl implements _CRUDService{
 		
 		Guest g1 = new Guest("name", "name2", "description");
 		guestRepo.save(g1);
-		/*
-		Attendance a1 = new Attendance(h1,new Date());
-		Attendance a2 = new Attendance(h2,new Date());
-		Attendance a3 = new Attendance(s1,new Date());
-		Attendance a4 = new Attendance(s2,new Date());
-		
-		Attendance a5 = new Attendance(g1,new Date(), new Date(1000));
-		
+	
+		Attendance a1 = new Attendance(h1,LocalDateTime.now());
+		a1.setRegisterOUT(LocalDateTime.now().plusDays(1));
+		System.out.println(a1.calculateWorkedHours());
 		attendanceRepo.save(a1);
+		attendanceRepo.save(new Attendance(h1,LocalDateTime.now()));
+		attendanceRepo.save(new Attendance(h1,LocalDateTime.now()));
+		attendanceRepo.save(new Attendance(h1,LocalDateTime.now()));
+		attendanceRepo.save(new Attendance(h1,LocalDateTime.now()));
+		attendanceRepo.save(new Attendance(h1,LocalDateTime.now()));
+		Attendance a2 = new Attendance(h2,LocalDateTime.now());
+		Attendance a3 = new Attendance(s1,LocalDateTime.now());
+		Attendance a4 = new Attendance(s2,LocalDateTime.now());
+		Attendance a5 = new Attendance(g1,LocalDateTime.now(), LocalDateTime.now());
+		attendanceRepo.save(a5);
+		
 		attendanceRepo.save(a2);
 		attendanceRepo.save(a3);
 		attendanceRepo.save(a4);
-		attendanceRepo.save(a5);*/
 	}
 	@Override
 	public void createEmployee(User employee) {
@@ -69,11 +76,12 @@ public class CRUDServiceImpl implements _CRUDService{
 	}
 	@Override
 	public boolean createEmployeeAttendance(User user, LocalDateTime date) {
+		//Update employee attendance on existing ID
 		if(userRepo.existsById(user.getUser_id())) {
-			return false;
-		}else {
 			attendanceRepo.save(new Attendance(user , date));
 			return true;
+		}else {
+			return false;
 		}
 	}
 	@Override
@@ -95,7 +103,12 @@ public class CRUDServiceImpl implements _CRUDService{
 		// TODO Auto-generated method stub
 		return userRepo.findById(id).get();
 	}
-	
+	public void updateAttendanceByObject(int id, Attendance attendance) {
+		Attendance temp = attendanceRepo.findById(id).get();
+		temp.setRegisterIN(attendance.getRegisterIN());
+		temp.setRegisterOUT(attendance.getRegisterOUT());
+		attendanceRepo.save(temp);
+	}
 	public void updateHEmployeeByObject(int id, HEmployee employee) {
 		//Or just set employee object the id
 		HEmployee temp = (HEmployee) userRepo.findById(id).get();
@@ -143,7 +156,7 @@ public class CRUDServiceImpl implements _CRUDService{
 	@Override
 	public boolean deleteEmployee(User user) {
 		if(!userRepo.existsById(user.getUser_id())) {
-			System.out.println("Employee with user id "+ user.getUser_id()+ " not found!");
+			System.out.println("Employee with id "+ user.getUser_id()+ " not found!");
 			return false;
 		}else {
 			userRepo.delete(user);
@@ -153,9 +166,12 @@ public class CRUDServiceImpl implements _CRUDService{
 	@Override
 	public boolean deleteEmployee(int id) {
 		if(!userRepo.existsById(id)) {
-			System.out.println("Employee with user id "+ id+ " not found!");
+			System.out.println("Employee with id "+ id+ " not found!");
 			return false;
 		}else {
+			Collection<Attendance> allAttendances = userRepo.findById(id).get().getAttendance();
+			attendanceRepo.deleteAll(allAttendances);
+			User user = userRepo.findById(id).get(); 
 			userRepo.deleteById(id);;
 			return true;
 		}
@@ -163,7 +179,7 @@ public class CRUDServiceImpl implements _CRUDService{
 	@Override
 	public boolean deleteGuest(Guest guest) {
 		if(!guestRepo.existsById(guest.getGuest_id())) {
-			System.out.println("Employee with user id "+ guest.getGuest_id()+ " not found!");
+			System.out.println("Guest with id "+ guest.getGuest_id()+ " not found!");
 			return false;
 		}else {
 			guestRepo.delete(guest);
@@ -173,10 +189,13 @@ public class CRUDServiceImpl implements _CRUDService{
 	@Override
 	public boolean deleteGuest(int id) {
 		if(!guestRepo.existsById(id)) {
-			System.out.println("Guest with user id "+ id+ " not found!");
+			System.out.println("Guest with id "+ id+ " not found!");
 			return false;
 		}else {
-			guestRepo.deleteById(id);;
+			Attendance attendance = guestRepo.findById(id).get().getAttendance();
+			attendanceRepo.delete(attendance);
+			Guest guest = guestRepo.findById(id).get(); 
+			guestRepo.deleteById(id);
 			return true;
 		}
 	}

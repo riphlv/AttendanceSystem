@@ -1,5 +1,6 @@
 package lv.venta.AttendanceSystem.models;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -70,6 +71,27 @@ public abstract class User {
 	}
 	public int getUser_id() {
 		return user_id;
+	}
+	public boolean updateUsersAttendance() {
+		if(getLastAttendance().getRegisterIN() == null) {
+			getLastAttendance().setRegisterIN(LocalDateTime.now());
+			return true;
+		}else if(getLastAttendance().getRegisterOUT() == null) {
+			getLastAttendance().setRegisterOUT(LocalDateTime.now());
+			return true;
+		}else {
+			return false;
+			//new Attendance(this,LocalDateTime.now());
+		}
+	}
+	
+	public Attendance getLastAttendance() {
+		//ugly way to get last attendance
+		Attendance temp = null;
+		for(Attendance attendance : this.getAttendance()) {
+			temp = attendance;
+		}
+		return temp;
 	}
 	public User(String name, String surname, Gender gender, Occupation occupation) {
 		super();

@@ -4,6 +4,8 @@ package lv.venta.AttendanceSystem.models;
 
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -52,7 +54,41 @@ public class Attendance {
 	public int getAttendance_id() {
 		return attendance_id;
 	}
-	
+	public LocalDateTime getCurrentTime() {
+		return LocalDateTime.now();
+	}
+	public String formatDate(LocalDateTime time) {
+		if(time == null) {
+			return "";
+		}else {
+			//format text and append zero to hours and minutes if time 
+			// currently is less than 10 -- 01, 02 , 12 etc.
+			String hour=""+time.getHour();
+			String minute=""+time.getMinute();
+			if(time.getHour()<10) {
+				hour = "0"+time.getHour();
+			}
+			if(time.getMinute()<10) {
+				minute = "0"+time.getMinute();
+			}
+			return hour+":"+
+					minute +" - "+
+					time.getDayOfMonth()+"."+
+					time.getMonth()+" "+
+					time.getYear();
+		}
+			
+	}
+	public float calculateWorkedHours() {
+		//	Return time between registerIN and registerOUT
+		// 	in case one of the times equals null, return 0
+		if(this.getRegisterOUT()==null || this.getRegisterIN()==null) {
+			return 0;
+		}else {
+			LocalDateTime temp = LocalDateTime.from(this.getRegisterIN());
+			return temp.until(this.getRegisterOUT(), ChronoUnit.HOURS);
+		}
+	}
 	public Attendance( LocalDateTime entered, LocalDateTime left ) {
 		super();
 		this.registerIN = entered;

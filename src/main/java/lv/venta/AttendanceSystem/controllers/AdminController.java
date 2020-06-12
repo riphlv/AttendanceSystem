@@ -20,12 +20,15 @@ import lv.venta.AttendanceSystem.models.Guest;
 import lv.venta.AttendanceSystem.models.HEmployee;
 import lv.venta.AttendanceSystem.models.SEmployee;
 import lv.venta.AttendanceSystem.services.impl.CRUDServiceImpl;
+import lv.venta.AttendanceSystem.services.impl.FilterServiceImpl;
 
 @Controller
 @RequestMapping("/admin")
 public class AdminController {
 	@Autowired
 	CRUDServiceImpl crudService;
+	@Autowired
+	FilterServiceImpl filterService;
 	
 	@GetMapping("/test")
 	public String testData() {
@@ -33,19 +36,21 @@ public class AdminController {
 		return "ok";
 	}
 	@GetMapping("/newHourlyEmpl")
-	public String createHourlyEmployee(@ModelAttribute("employee") HEmployee employee) {
+	public String createHourlyEmployee(@ModelAttribute("employee") HEmployee employee, Model model) {
+		model.addAttribute("innerObj",filterService.selectAllUsers());
 		return "employee-h-form";
 	}
 	@PostMapping("/newHourlyEmpl")
 	public String createHourlyEmployee(HEmployee hemployee, BindingResult result) {
 		if(!result.hasErrors()) {
 			crudService.createEmployee(hemployee);
-			return "ok";
+			return "redirect:/admin/newHourlyEmpl";
 		}
 		return "employee-h-form";
 	}
 	@GetMapping("/newSalaryEmpl")
-	public String createSalaryEmployee(@ModelAttribute("employee") SEmployee employee) {
+	public String createSalaryEmployee(@ModelAttribute("employee") SEmployee employee,Model model) {
+		model.addAttribute("innerObj",filterService.selectAllUsers());
 		return "employee-s-form";
 	}
 	@PostMapping("/newSalaryEmpl")
@@ -125,4 +130,23 @@ public class AdminController {
 		crudService.updateGuestByObject(guest_id,temp.getAttendance().getAttendance_id(),guest);
 		return "ok";
 	}
+	@GetMapping("/deleteGuest/{guest_id}")
+	public String deleteGuest(@PathVariable(name="guest_id") int guest_id, Model model) {
+		//TODO Use model to redirect
+		if(crudService.deleteGuest(guest_id)) {
+			return "ok";
+		}else {
+			return "error";
+		}
+	}
+	@GetMapping("/deleteEmployee/{user_id}")
+	public String deleteEmployee(@PathVariable(name="user_id") int user_id, Model model) {
+		if(crudService.deleteEmployee(user_id)) {
+			return "ok";
+		}else {
+			return "error";
+		}
+	}
+	
+	
 }
