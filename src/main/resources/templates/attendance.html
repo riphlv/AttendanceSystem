@@ -19,7 +19,7 @@
 	       			<td scope="col" th:text="${attendance.formatDate(attendance.registerIN)}"></td>
 	       			<td scope="col" th:text="${attendance.formatDate(attendance.registerOUT)}"></td>
 	       			<td scope="col" th:text="${attendance.calculateWorkedHours()}"></td>
-	       			<td scope="col" >x</td>
+	       			<td scope="col" th:text="x"></td>
 	       		</tr>
        		</tbody>
        </table>

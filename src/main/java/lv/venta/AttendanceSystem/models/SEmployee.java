@@ -29,7 +29,7 @@ public class SEmployee extends User implements _Employee {
 	}
 
 	@Override
-	public float calculatePay(int week) {
+	public float calculatePay(int year, int week) {
 		return weeklySalary;
 		
 	}

@@ -15,6 +15,7 @@ public interface _FilterService {
 	ArrayList<HEmployee>selectAllHEmployees();
 	ArrayList<SEmployee>selectAllSEmployees();
 	Collection<Attendance>userAttendances(int id);
+	Collection<Attendance>userAttendances(int id,int year, int week);
 	User findUserById(int id);
 	
 }

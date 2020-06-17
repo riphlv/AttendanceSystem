@@ -6,9 +6,31 @@
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 </head>
 <body>
+<script>
+function changeUrl(){
+	var year = document.getElementById('newYear');
+	var week = document.getElementById('newWeek');
+	location=window.location.href+"/"+year+"/"+week;
+	console.log(location);
+	return false;
+}
+</script>
  <header th:replace="fragments/header :: header" ></header>
  <div class="container rounded border w-80 centered" style="margin-top:10px;">
  	<div th:replace="attendance.html" ></div>
+ 		<label>Salary before taxes:</label>
+ 		<label th:text="${salaryObj}">0</label>
+ 	<form action="#" th:action="@{'/user/attendances/'+${id}}" method="post">
+ 		<div class="form-group">
+ 			<label>Year</label>
+ 			<input id="newYear" th:name="newYear" th:value="${year}" type="text" placeholder="2020">
+ 		</div>
+ 		<div class="form-group">
+ 			<label>Week</label>
+ 			<input id="newWeek" th:name="newWeek" th:value="${week}" type="text" placeholder="23">
+ 		</div>
+ 			<button type="submit" class="btn btn-primary">Submit</button>	
+ 	</form>
  </div>
 <footer th:insert="fragments/footer::footer"> </footer>
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>

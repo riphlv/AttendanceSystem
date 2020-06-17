@@ -2,6 +2,8 @@ package lv.venta.AttendanceSystem.controllers;
 
 import java.io.FilterReader;
 import java.time.LocalDateTime;
+import java.time.temporal.WeekFields;
+import java.util.Locale;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -11,12 +13,15 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import lv.venta.AttendanceSystem.models.Attendance;
 import lv.venta.AttendanceSystem.models.User;
+import lv.venta.AttendanceSystem.repositories._UserRepo;
 import lv.venta.AttendanceSystem.services._FilterService;
 import lv.venta.AttendanceSystem.services.impl.CRUDServiceImpl;
 import lv.venta.AttendanceSystem.services.impl.FilterServiceImpl;
+import lv.venta.AttendanceSystem.services.impl.UserServiceImpl;
 
 @Controller
 @RequestMapping("/user")
@@ -25,10 +30,38 @@ public class EmployeeController {
 	FilterServiceImpl filterService;
 	@Autowired
 	CRUDServiceImpl crudService;
-	
+	@Autowired
+	UserServiceImpl userService;
+	@Autowired
+	_UserRepo userRepo;
 	@GetMapping("/attendances/{id}")
 	public String showAllAttendances(@PathVariable(name="id") int id, Model model) {
-		model.addAttribute("innerObj",filterService.userAttendances(id));
+		
+		WeekFields weekFields = WeekFields.of(Locale.getDefault());
+		int currentYear = LocalDateTime.now().getYear();
+		int currentWeek = LocalDateTime.now().get(weekFields.weekOfYear());
+		model.addAttribute("year",currentYear);
+		model.addAttribute("week",currentWeek);
+		model.addAttribute("innerObj",filterService.userAttendances(id,currentYear,currentWeek));
+		model.addAttribute("salaryObj",userService.calculatePay(userRepo.findById(id).get(), currentYear, currentWeek));
+		return "employee-attendance";
+	}
+	@GetMapping("/attendances/{id}/{year}/{week}")
+	public String showAllAttendances(Model model ,@PathVariable int id, @PathVariable int year, @PathVariable int week) {
+		System.out.println("id year week");
+		model.addAttribute("innerObj",filterService.userAttendances(id,year,week));
+		model.addAttribute("salaryObj",
+				userService.calculatePay(userRepo.findById(id).get(), year, week));
+		model.addAttribute("year",year);
+		model.addAttribute("week",week);
+		
+		//model.addAttribute("salaryObj",userService.calculatePay(userRepo.findById(id).get(), year, week))
+		return "employee-attendance";
+	}
+	@PostMapping("/attendances/{id}")
+	public String showAllAttendances(@PathVariable int id, @RequestParam(value="newYear", required=true) int year, @RequestParam(value="newWeek", required=true) int week, Model model) {
+		model.addAttribute("salaryObj",userService.calculatePay(userRepo.findById(id).get(), year, week));
+		model.addAttribute("innerObj",filterService.userAttendances(id,year,week));
 		return "employee-attendance";
 	}
 	@GetMapping("/checkin/{id}")

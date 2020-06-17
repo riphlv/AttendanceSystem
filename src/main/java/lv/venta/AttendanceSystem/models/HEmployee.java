@@ -1,5 +1,9 @@
 package lv.venta.AttendanceSystem.models;
 
+import java.time.LocalDateTime;
+import java.time.temporal.WeekFields;
+import java.util.Locale;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 
@@ -45,12 +49,8 @@ public class HEmployee extends User implements _Employee {
 				+ super.toString() + "]";
 	}
 	@Override
-	public float calculatePay(int week) {// TODO week not implemented
-		int overtime = 0;
-		if(this.getHoursWorked() > 40) { //40 hours per week before overtime adds
-			overtime = this.getHoursWorked()- 40;
-		}
-		return (float)(this.getHourlyWage()*getHoursWorked()+(overtime*(this.getHourlyWage()*1.5)));
+	public float calculatePay(int year, int week) {
+		return 0;
 	}
 	
 }

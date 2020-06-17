@@ -1,8 +1,5 @@
 package lv.venta.AttendanceSystem.controllers;
 
-import java.time.LocalDateTime;
-import java.util.Date;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,15 +9,13 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.ModelAndView;
 
-import lv.venta.AttendanceSystem.models.Attendance;
 import lv.venta.AttendanceSystem.models.Guest;
 import lv.venta.AttendanceSystem.models.HEmployee;
 import lv.venta.AttendanceSystem.models.SEmployee;
 import lv.venta.AttendanceSystem.services.impl.CRUDServiceImpl;
 import lv.venta.AttendanceSystem.services.impl.FilterServiceImpl;
+import lv.venta.AttendanceSystem.services.impl.UserServiceImpl;
 
 @Controller
 @RequestMapping("/admin")
@@ -29,10 +24,13 @@ public class AdminController {
 	CRUDServiceImpl crudService;
 	@Autowired
 	FilterServiceImpl filterService;
+	@Autowired
+	UserServiceImpl userService;
 	
 	@GetMapping("/test")
 	public String testData() {
 		crudService.testData();
+		//userService.calculatePay(employee, year, week)
 		return "ok";
 	}
 	@GetMapping("/newHourlyEmpl")

@@ -1,7 +1,10 @@
 package lv.venta.AttendanceSystem.services.impl;
 
+import java.time.LocalDateTime;
+import java.time.temporal.WeekFields;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Locale;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -72,6 +75,37 @@ public class FilterServiceImpl implements _FilterService {
 		}	
 		return temp;
 	}
+
+	@Override
+	public Collection<Attendance> userAttendances(int id,int year, int week) {
+		if(!userRepo.existsById(id)) {
+			System.out.println("No user found to display attendances!");
+			return null;
+		}else {
+			Collection<Attendance>weeksAttendances = new ArrayList<Attendance>();
+			LocalDateTime date = LocalDateTime.of(year,1,1,0,0);
+			WeekFields weekFields = WeekFields.of(Locale.getDefault());
+			date = date.withYear(year)
+	                .with(weekFields.weekOfYear(), week)
+	                .with(weekFields.dayOfWeek(), 2); // Start of the week 1 = Sunday, 2 = Monday
+			
+			//Monday to Sunday
+			//Get employees date, calculate difference hours between IN & OUT
+			//Sum hours
+			LocalDateTime endDate = date.plusDays(7);
+			for (LocalDateTime startDate = date ; startDate.isBefore(endDate); startDate = startDate.plusDays(1)){
+				for(Attendance attendance : userRepo.findById(id).get().getAttendance()) {
+			    	if(attendance.getRegisterIN().getYear() == startDate.getYear() &&
+			    			attendance.getRegisterIN().getMonth() == startDate.getMonth()&&
+			    			attendance.getRegisterIN().getDayOfMonth() == startDate.getDayOfMonth() ) {
+			    		weeksAttendances.add(attendance);
+			    	}
+			    }
+			}
+			return weeksAttendances;
+		}
+	}
+	
 
 
 }

@@ -27,6 +27,8 @@ public class CRUDServiceImpl implements _CRUDService{
 	_GuestRepo guestRepo;
 	@Autowired
 	_UserRepo userRepo;
+	@Autowired
+	UserServiceImpl userService;
 	@Override
 	public void testData() {
 		
@@ -60,6 +62,12 @@ public class CRUDServiceImpl implements _CRUDService{
 		attendanceRepo.save(new Attendance(h1,
 				LocalDateTime.of(2020,6,5,8,0),
 				LocalDateTime.of(2020,6,5,16,0)));
+		attendanceRepo.save(new Attendance(h1,
+				LocalDateTime.of(2020,6,6,8,0),
+				LocalDateTime.of(2020,6,6,16,0)));
+		attendanceRepo.save(new Attendance(h1,
+				LocalDateTime.of(2020,5,29,8,0),
+				LocalDateTime.of(2020,5,29,16,0)));
 		//hourly h2
 		attendanceRepo.save(new Attendance(h2,
 				LocalDateTime.of(2020,6,1,8,0),
@@ -92,6 +100,9 @@ public class CRUDServiceImpl implements _CRUDService{
 		attendanceRepo.save(new Attendance(s1,
 				LocalDateTime.of(2020,6,5,8,0),
 				LocalDateTime.of(2020,6,5,16,0)));
+		attendanceRepo.save(new Attendance(s1,
+				LocalDateTime.of(2020,6,6,8,0),
+				LocalDateTime.of(2020,6,6,16,0)));
 		//salary s2
 		attendanceRepo.save(new Attendance(s2,
 				LocalDateTime.of(2020,6,1,8,0),
@@ -111,6 +122,9 @@ public class CRUDServiceImpl implements _CRUDService{
 		//guest g1
 		Attendance a5 = new Attendance(g1,LocalDateTime.of(2020,6,1,8,0), LocalDateTime.of(2020,6,5,16,0));
 		attendanceRepo.save(a5);
+		System.out.println("------------");
+		System.out.println(userService.calculatePay(userRepo.findById(1).get(), 2020, 23));
+		System.out.println(userService.calculatePay(userRepo.findById(3).get(), 2020, 23));
 		//System.out.println(a1.calculateWorkedHours());
 	}
 	@Override
