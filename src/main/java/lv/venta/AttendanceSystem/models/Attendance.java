@@ -100,6 +100,12 @@ public class Attendance {
 		this.registerIN = entered;
 		this.registerOUT = null;
 	}
+	public Attendance(User user, LocalDateTime entered, LocalDateTime left) {
+		super();
+		this.user = user;
+		this.registerIN = entered;
+		this.registerOUT = left;
+	}
 	public Attendance(Guest guest, LocalDateTime dateFrom, LocalDateTime dateTo ) {
 		super();
 		this.guest = guest;

@@ -72,7 +72,19 @@ public abstract class User {
 	public int getUser_id() {
 		return user_id;
 	}
+	public String whatChildClass() {
+		if(this instanceof HEmployee) {
+			return "Hourly";
+		}else if(this instanceof SEmployee) {
+			return "Salary";
+		}else {
+			return "";
+		}
+		
+	}
 	public boolean updateUsersAttendance() {
+		//Checks if user checks in or out and updates it
+		//Returns false if attendance is filled
 		if(getLastAttendance().getRegisterIN() == null) {
 			getLastAttendance().setRegisterIN(LocalDateTime.now());
 			return true;
@@ -81,7 +93,6 @@ public abstract class User {
 			return true;
 		}else {
 			return false;
-			//new Attendance(this,LocalDateTime.now());
 		}
 	}
 	

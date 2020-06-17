@@ -5,11 +5,16 @@ import java.util.Collection;
 
 import lv.venta.AttendanceSystem.models.Attendance;
 import lv.venta.AttendanceSystem.models.Guest;
+import lv.venta.AttendanceSystem.models.HEmployee;
+import lv.venta.AttendanceSystem.models.SEmployee;
 import lv.venta.AttendanceSystem.models.User;
 
 public interface _FilterService {
 	ArrayList<User>selectAllUsers();
 	ArrayList<Guest>selectAllGuests();
+	ArrayList<HEmployee>selectAllHEmployees();
+	ArrayList<SEmployee>selectAllSEmployees();
 	Collection<Attendance>userAttendances(int id);
 	User findUserById(int id);
+	
 }

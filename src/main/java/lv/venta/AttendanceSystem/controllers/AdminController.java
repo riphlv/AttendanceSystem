@@ -78,11 +78,17 @@ public class AdminController {
 		System.out.println(result);
 		return "guest-form";
 	}
+	@GetMapping("/updateHourlyEmpl")
+	public String updateHourlyEmployee(Model model) {
+		model.addAttribute("innerObj",filterService.selectAllHEmployees());
+		return "employeeTable";
+	}
 	@GetMapping("/updateHourlyEmpl/{user_id}")
 	public String updateHourlyEmployee(@PathVariable(name="user_id") int user_id, Model model, HEmployee employee) {
 		try {
 			HEmployee temp = (HEmployee) crudService.updateEmployee(user_id);
 			model.addAttribute("employee",temp);
+			model.addAttribute("innerObj",filterService.selectAllHEmployees());
 			
 		}catch(Exception e) {
 			e.printStackTrace();
@@ -95,11 +101,17 @@ public class AdminController {
 		crudService.updateHEmployeeByObject(user_id,employee);
 		return "ok";
 	}
+	@GetMapping("/updateSalaryEmpl")
+	public String updateSalaryEmployee(Model model) {
+		model.addAttribute("innerObj",filterService.selectAllSEmployees());
+		return "employeeTable";
+	}
 	@GetMapping("/updateSalaryEmpl/{user_id}")
 	public String updateSalaryEmployee(@PathVariable(name="user_id") int user_id, Model model, SEmployee employee) {
 		try {
 			SEmployee temp =  (SEmployee) crudService.updateEmployee(user_id);
 			model.addAttribute("employee",temp);
+			model.addAttribute("innerObj",filterService.selectAllSEmployees());
 			
 		}catch(Exception e) {
 			e.printStackTrace();
@@ -111,6 +123,13 @@ public class AdminController {
 	public String updateSalaryEmployee(@PathVariable(name="user_id") int user_id,@ModelAttribute SEmployee employee) {
 		crudService.updateSEmployeeByObject(user_id,employee);
 		return "ok";
+	}
+	@GetMapping("/updateGuest")
+	public String updateGuest(Model model) {
+		model.addAttribute("guestObj",filterService.selectAllGuests());
+		//Guest guest = new Guest();
+		
+		return "guestTable";
 	}
 	@GetMapping("/updateGuest/{guest_id}")
 	public String updateGuest(@PathVariable(name="guest_id") int guest_id, Model model, Guest guest) {
@@ -127,7 +146,7 @@ public class AdminController {
 	@PostMapping("/updateGuest/{guest_id}")
 	public String updateGuest(@PathVariable(name="guest_id") int guest_id,@ModelAttribute Guest guest) {
 		Guest temp = crudService.updateGuest(guest_id);
-		crudService.updateGuestByObject(guest_id,temp.getAttendance().getAttendance_id(),guest);
+		crudService.updateGuestByObject(guest_id,guest);
 		return "ok";
 	}
 	@GetMapping("/deleteGuest/{guest_id}")

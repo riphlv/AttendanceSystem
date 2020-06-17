@@ -6,7 +6,6 @@ import javax.persistence.Entity;
 import lv.venta.AttendanceSystem.enums.Gender;
 import lv.venta.AttendanceSystem.enums.Occupation;
 @Entity
-//@Table(name="HourlyEmployees")
 public class HEmployee extends User implements _Employee {
 	@Column(name="HourlyWage")
 	private float hourlyWage;

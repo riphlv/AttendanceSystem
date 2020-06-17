@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 
 import lv.venta.AttendanceSystem.models.Attendance;
 import lv.venta.AttendanceSystem.models.Guest;
+import lv.venta.AttendanceSystem.models.HEmployee;
+import lv.venta.AttendanceSystem.models.SEmployee;
 import lv.venta.AttendanceSystem.models.User;
 import lv.venta.AttendanceSystem.repositories._GuestRepo;
 import lv.venta.AttendanceSystem.repositories._UserRepo;
@@ -49,5 +51,27 @@ public class FilterServiceImpl implements _FilterService {
 			return userRepo.findById(id).get();
 		}
 	}
+	@Override
+	public ArrayList<HEmployee>  selectAllHEmployees() {
+		ArrayList<User> allUsers = (ArrayList<User>) userRepo.findAll();
+		ArrayList<HEmployee> temp = new ArrayList<HEmployee>();
+		for(User empl : allUsers) {
+			if (empl instanceof HEmployee)
+				temp.add((HEmployee) empl);
+		}	
+		return temp;
+	}
+
+	@Override
+	public ArrayList<SEmployee> selectAllSEmployees() {
+		ArrayList<User> allUsers = (ArrayList<User>) userRepo.findAll();
+		ArrayList<SEmployee> temp = new ArrayList<SEmployee>();
+		for(User empl : allUsers) {
+			if (empl instanceof SEmployee)
+				temp.add((SEmployee) empl);
+		}	
+		return temp;
+	}
+
 
 }

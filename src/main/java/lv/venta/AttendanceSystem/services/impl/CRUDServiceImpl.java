@@ -30,37 +30,88 @@ public class CRUDServiceImpl implements _CRUDService{
 	@Override
 	public void testData() {
 		
-		HEmployee h1 = new HEmployee("Name","Surname", Gender.female, Occupation.Accounting, 12f,0);
-		HEmployee h2 = new HEmployee("Name2","Surname2", Gender.male, Occupation.Analyst, 13f,1);
+		HEmployee h1 = new HEmployee("Cindi","Hatcher", Gender.female, Occupation.Accounting, 12f,0);
+		HEmployee h2 = new HEmployee("Robert","Washington", Gender.male, Occupation.Analyst, 13f,0);
 		
-		SEmployee s1 = new SEmployee("Name3","Surname3",Gender.male,Occupation.Analyst,500f);
-		SEmployee s2 = new SEmployee("Name4","Surname4",Gender.male,Occupation.Analyst,500f);
+		SEmployee s1 = new SEmployee("Russell","Ryan",Gender.male,Occupation.HumanResources,500f);
+		SEmployee s2 = new SEmployee("Jack","Turner",Gender.male,Occupation.ITAdministrator,500f);
+		
 		userRepo.save(h1);
 		userRepo.save(h2);
 		userRepo.save(s1);
 		userRepo.save(s2);
 		
-		Guest g1 = new Guest("name", "name2", "description");
+		Guest g1 = new Guest("Diane", "Speed", "visit desc");
 		guestRepo.save(g1);
-	
-		Attendance a1 = new Attendance(h1,LocalDateTime.now());
-		a1.setRegisterOUT(LocalDateTime.now().plusDays(1));
-		System.out.println(a1.calculateWorkedHours());
-		attendanceRepo.save(a1);
-		attendanceRepo.save(new Attendance(h1,LocalDateTime.now()));
-		attendanceRepo.save(new Attendance(h1,LocalDateTime.now()));
-		attendanceRepo.save(new Attendance(h1,LocalDateTime.now()));
-		attendanceRepo.save(new Attendance(h1,LocalDateTime.now()));
-		attendanceRepo.save(new Attendance(h1,LocalDateTime.now()));
-		Attendance a2 = new Attendance(h2,LocalDateTime.now());
-		Attendance a3 = new Attendance(s1,LocalDateTime.now());
-		Attendance a4 = new Attendance(s2,LocalDateTime.now());
-		Attendance a5 = new Attendance(g1,LocalDateTime.now(), LocalDateTime.now());
-		attendanceRepo.save(a5);
 		
-		attendanceRepo.save(a2);
-		attendanceRepo.save(a3);
-		attendanceRepo.save(a4);
+		//hourly h1
+		attendanceRepo.save(new Attendance(h1,
+				LocalDateTime.of(2020,6,1,8,0),
+				LocalDateTime.of(2020,6,1,16,0)));
+		attendanceRepo.save(new Attendance(h1,
+				LocalDateTime.of(2020,6,2,8,0),
+				LocalDateTime.of(2020,6,2,16,0)));
+		attendanceRepo.save(new Attendance(h1,
+				LocalDateTime.of(2020,6,3,8,0),
+				LocalDateTime.of(2020,6,3,16,0)));
+		attendanceRepo.save(new Attendance(h1,
+				LocalDateTime.of(2020,6,4,8,0),
+				LocalDateTime.of(2020,6,4,16,0)));
+		attendanceRepo.save(new Attendance(h1,
+				LocalDateTime.of(2020,6,5,8,0),
+				LocalDateTime.of(2020,6,5,16,0)));
+		//hourly h2
+		attendanceRepo.save(new Attendance(h2,
+				LocalDateTime.of(2020,6,1,8,0),
+				LocalDateTime.of(2020,6,1,16,0)));
+		attendanceRepo.save(new Attendance(h2,
+				LocalDateTime.of(2020,6,2,8,0),
+				LocalDateTime.of(2020,6,2,16,0)));
+		attendanceRepo.save(new Attendance(h2,
+				LocalDateTime.of(2020,6,3,8,0),
+				LocalDateTime.of(2020,6,3,16,0)));
+		attendanceRepo.save(new Attendance(h2,
+				LocalDateTime.of(2020,6,4,8,0),
+				LocalDateTime.of(2020,6,4,16,0)));
+		attendanceRepo.save(new Attendance(h2,
+				LocalDateTime.of(2020,6,5,8,0),
+				LocalDateTime.of(2020,6,5,16,0)));
+		//salary s1
+		attendanceRepo.save(new Attendance(s1,
+				LocalDateTime.of(2020,6,1,8,0),
+				LocalDateTime.of(2020,6,1,16,0)));
+		attendanceRepo.save(new Attendance(s1,
+				LocalDateTime.of(2020,6,2,8,0),
+				LocalDateTime.of(2020,6,2,16,0)));
+		attendanceRepo.save(new Attendance(s1,
+				LocalDateTime.of(2020,6,3,8,0),
+				LocalDateTime.of(2020,6,3,16,0)));
+		attendanceRepo.save(new Attendance(s1,
+				LocalDateTime.of(2020,6,4,8,0),
+				LocalDateTime.of(2020,6,4,16,0)));
+		attendanceRepo.save(new Attendance(s1,
+				LocalDateTime.of(2020,6,5,8,0),
+				LocalDateTime.of(2020,6,5,16,0)));
+		//salary s2
+		attendanceRepo.save(new Attendance(s2,
+				LocalDateTime.of(2020,6,1,8,0),
+				LocalDateTime.of(2020,6,1,16,0)));
+		attendanceRepo.save(new Attendance(s2,
+				LocalDateTime.of(2020,6,2,8,0),
+				LocalDateTime.of(2020,6,2,16,0)));
+		attendanceRepo.save(new Attendance(s2,
+				LocalDateTime.of(2020,6,3,8,0),
+				LocalDateTime.of(2020,6,3,16,0)));
+		attendanceRepo.save(new Attendance(s2,
+				LocalDateTime.of(2020,6,4,8,0),
+				LocalDateTime.of(2020,6,4,16,0)));
+		attendanceRepo.save(new Attendance(s2,
+				LocalDateTime.of(2020,6,5,8,0),
+				LocalDateTime.of(2020,6,5,16,0)));
+		//guest g1
+		Attendance a5 = new Attendance(g1,LocalDateTime.of(2020,6,1,8,0), LocalDateTime.of(2020,6,5,16,0));
+		attendanceRepo.save(a5);
+		//System.out.println(a1.calculateWorkedHours());
 	}
 	@Override
 	public void createEmployee(User employee) {
@@ -132,19 +183,18 @@ public class CRUDServiceImpl implements _CRUDService{
 		temp.setSurname(employee.getSurname());
 		userRepo.save(temp);
 	}
-	public void updateGuestByObject(int id,int id2, Guest guest) {
-		//Attendance tempAttendance = guest.getAttendance();
-		Attendance tempAttendance = attendanceRepo.findById(id2).get();
+	public void updateGuestByObject(int id, Guest guest) {
+		Guest temp = guestRepo.findById(id).get();
+		Attendance tempAttendance = attendanceRepo.findById(temp.getAttendance().getAttendance_id()).get();
+		
 		tempAttendance.setRegisterIN(guest.getAttendance().getRegisterIN());
 		tempAttendance.setRegisterOUT(guest.getAttendance().getRegisterOUT());
-		guest.setAttendance(null);
-		//guestRepo.save(guest);
-		//Or just set employee object the id
-		Guest temp = guestRepo.findById(id).get();
-		temp.setAttendance(guest.getAttendance());
+		
+		temp.setAttendance(tempAttendance);
 		temp.setDescription(guest.getDescription());
 		temp.setName(guest.getName());
 		temp.setSurname(guest.getSurname());
+		
 		guestRepo.save(temp);
 		attendanceRepo.save(tempAttendance);
 	}

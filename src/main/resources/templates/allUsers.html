@@ -8,18 +8,22 @@
            <table class="table">
        		<thead>
        			<tr>
+       				<th scope="col">ID</th>
        				<th scope="col">Name</th>
        				<th scope="col">Surname</th>
        				<th scope="col">Gender</th>
        				<th scope="col">Occupation</th>
+       				<th scope="col">Pay type</th>
        			</tr>
        		</thead>
        		<tbody>
 	       		<tr th:each="user : ${innerObj}">
+	       			<td scope="col" th:text="${user.user_id}"></td>
 	       			<td scope="col" th:text="${user.name}"></td>
 	       			<td scope="col" th:text="${user.surname}"></td>
 	       			<td scope="col" th:text="${user.gender}"></td>
 	       			<td scope="col" th:text="${user.occupation}"></td>
+	       			<td scope="col" th:text="${user.whatChildClass()}"></td>
 	       		</tr>
        		</tbody>
        </table>
