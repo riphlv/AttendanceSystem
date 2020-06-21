@@ -143,7 +143,7 @@ public class AdminController {
 	}
 	@PostMapping("/updateGuest/{guest_id}")
 	public String updateGuest(@PathVariable(name="guest_id") int guest_id,@ModelAttribute Guest guest) {
-		Guest temp = crudService.updateGuest(guest_id);
+		//Guest temp = crudService.updateGuest(guest_id);
 		crudService.updateGuestByObject(guest_id,guest);
 		return "ok";
 	}

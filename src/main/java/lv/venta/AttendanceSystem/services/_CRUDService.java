@@ -1,12 +1,9 @@
 package lv.venta.AttendanceSystem.services;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 
 import lv.venta.AttendanceSystem.models.Attendance;
 import lv.venta.AttendanceSystem.models.Guest;
-import lv.venta.AttendanceSystem.models.HEmployee;
-import lv.venta.AttendanceSystem.models.SEmployee;
 import lv.venta.AttendanceSystem.models.User;
 
 public interface _CRUDService {

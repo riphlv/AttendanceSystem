@@ -1,18 +1,17 @@
 package lv.venta.AttendanceSystem.models;
 
-import java.time.LocalDateTime;
-import java.time.temporal.WeekFields;
-import java.util.Locale;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.validation.constraints.Min;
 
 import lv.venta.AttendanceSystem.enums.Gender;
 import lv.venta.AttendanceSystem.enums.Occupation;
 @Entity
 public class HEmployee extends User implements _Employee {
+	@Min(0)
 	@Column(name="HourlyWage")
 	private float hourlyWage;
+	@Min(0)
 	@Column(name="hoursWorked")
 	private int hoursWorked;
 	

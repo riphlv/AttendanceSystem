@@ -2,7 +2,6 @@ package lv.venta.AttendanceSystem.services.impl;
 
 import java.time.LocalDateTime;
 import java.util.Collection;
-import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -103,6 +102,12 @@ public class CRUDServiceImpl implements _CRUDService{
 		attendanceRepo.save(new Attendance(s1,
 				LocalDateTime.of(2020,6,6,8,0),
 				LocalDateTime.of(2020,6,6,16,0)));
+		attendanceRepo.save(new Attendance(s1,
+				LocalDateTime.of(2020,6,20,8,0),
+				LocalDateTime.of(2020,6,20,16,0)));
+		attendanceRepo.save(new Attendance(s1,
+				LocalDateTime.of(2020,6,21,8,0),
+				LocalDateTime.of(2020,6,21,16,0)));
 		//salary s2
 		attendanceRepo.save(new Attendance(s2,
 				LocalDateTime.of(2020,6,1,8,0),
@@ -122,9 +127,7 @@ public class CRUDServiceImpl implements _CRUDService{
 		//guest g1
 		Attendance a5 = new Attendance(g1,LocalDateTime.of(2020,6,1,8,0), LocalDateTime.of(2020,6,5,16,0));
 		attendanceRepo.save(a5);
-		System.out.println("------------");
-		System.out.println(userService.calculatePay(userRepo.findById(1).get(), 2020, 23));
-		System.out.println(userService.calculatePay(userRepo.findById(3).get(), 2020, 23));
+		
 		//System.out.println(a1.calculateWorkedHours());
 	}
 	@Override
@@ -165,7 +168,6 @@ public class CRUDServiceImpl implements _CRUDService{
 	}
 	@Override
 	public User updateEmployee(int id) {
-		// TODO Auto-generated method stub
 		return userRepo.findById(id).get();
 	}
 	public void updateAttendanceByObject(int id, Attendance attendance) {
@@ -214,7 +216,6 @@ public class CRUDServiceImpl implements _CRUDService{
 	}
 	@Override
 	public Guest updateGuest(int id) {
-		// TODO Auto-generated method stub
 		return guestRepo.findById(id).get();
 	}
 	@Override
@@ -234,9 +235,8 @@ public class CRUDServiceImpl implements _CRUDService{
 			return false;
 		}else {
 			Collection<Attendance> allAttendances = userRepo.findById(id).get().getAttendance();
-			attendanceRepo.deleteAll(allAttendances);
-			User user = userRepo.findById(id).get(); 
-			userRepo.deleteById(id);;
+			attendanceRepo.deleteAll(allAttendances); 
+			userRepo.deleteById(id);
 			return true;
 		}
 	}
@@ -258,7 +258,6 @@ public class CRUDServiceImpl implements _CRUDService{
 		}else {
 			Attendance attendance = guestRepo.findById(id).get().getAttendance();
 			attendanceRepo.delete(attendance);
-			Guest guest = guestRepo.findById(id).get(); 
 			guestRepo.deleteById(id);
 			return true;
 		}

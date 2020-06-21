@@ -1,6 +1,5 @@
 package lv.venta.AttendanceSystem.controllers;
 
-import java.io.FilterReader;
 import java.time.LocalDateTime;
 import java.time.temporal.WeekFields;
 import java.util.Locale;
@@ -9,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import lv.venta.AttendanceSystem.models.Attendance;
 import lv.venta.AttendanceSystem.models.User;
 import lv.venta.AttendanceSystem.repositories._UserRepo;
-import lv.venta.AttendanceSystem.services._FilterService;
 import lv.venta.AttendanceSystem.services.impl.CRUDServiceImpl;
 import lv.venta.AttendanceSystem.services.impl.FilterServiceImpl;
 import lv.venta.AttendanceSystem.services.impl.UserServiceImpl;
@@ -36,10 +33,9 @@ public class EmployeeController {
 	_UserRepo userRepo;
 	@GetMapping("/attendances/{id}")
 	public String showAllAttendances(@PathVariable(name="id") int id, Model model) {
-		
 		WeekFields weekFields = WeekFields.of(Locale.getDefault());
 		int currentYear = LocalDateTime.now().getYear();
-		int currentWeek = LocalDateTime.now().get(weekFields.weekOfYear());
+		int currentWeek = LocalDateTime.now().get(weekFields.weekOfYear()); // <--- Might not be working correctly during Sundays: returns next weeks number
 		model.addAttribute("year",currentYear);
 		model.addAttribute("week",currentWeek);
 		model.addAttribute("innerObj",filterService.userAttendances(id,currentYear,currentWeek));
@@ -54,8 +50,6 @@ public class EmployeeController {
 				userService.calculatePay(userRepo.findById(id).get(), year, week));
 		model.addAttribute("year",year);
 		model.addAttribute("week",week);
-		
-		//model.addAttribute("salaryObj",userService.calculatePay(userRepo.findById(id).get(), year, week))
 		return "employee-attendance";
 	}
 	@PostMapping("/attendances/{id}")

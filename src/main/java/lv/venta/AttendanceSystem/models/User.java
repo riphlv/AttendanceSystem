@@ -11,10 +11,11 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
 import lv.venta.AttendanceSystem.enums.Gender;
 import lv.venta.AttendanceSystem.enums.Occupation;
@@ -25,15 +26,23 @@ public abstract class User {
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private int user_id;
+	@NotNull
+	@Size(min=2, max=30)
+	@Pattern(regexp="^[a-zA-Z]*$")
 	@Column(name="Name")
 	private String name;
+	@NotNull
+	@Size(min=2, max=30)
+	@Pattern(regexp="^[a-zA-Z]*$")
 	@Column(name="Surname")
 	private String surname;
+	@NotNull
 	@Column(name="Gender")
 	@Enumerated(EnumType.STRING)
 	private Gender gender;
 	@OneToMany(mappedBy="user")
 	private Collection<Attendance>attendance;
+	@NotNull
 	@Column(name="Occupation")
 	@Enumerated(EnumType.STRING)
 	private Occupation occupation;
@@ -72,6 +81,8 @@ public abstract class User {
 	public int getUser_id() {
 		return user_id;
 	}
+	//Checks what type of employee it is
+	// 		(note: There might be a lot better solutions to this)
 	public String whatChildClass() {
 		if(this instanceof HEmployee) {
 			return "Hourly";
@@ -84,7 +95,7 @@ public abstract class User {
 	}
 	public boolean updateUsersAttendance() {
 		//Checks if user checks in or out and updates it
-		//Returns false if attendance is filled
+		//Returns false if attendance is fully filled
 		if(getLastAttendance().getRegisterIN() == null) {
 			getLastAttendance().setRegisterIN(LocalDateTime.now());
 			return true;
@@ -99,6 +110,8 @@ public abstract class User {
 	public Attendance getLastAttendance() {
 		//ugly way to get last attendance
 		Attendance temp = null;
+		//Loops through all attendances 
+		//  last loop will always be the most recent
 		for(Attendance attendance : this.getAttendance()) {
 			temp = attendance;
 		}

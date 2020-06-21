@@ -1,9 +1,5 @@
 package lv.venta.AttendanceSystem.models;
 
-
-
-import java.util.Date;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -11,6 +7,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
+
 @Entity
 @Table(name="Guests")
 public class Guest {
@@ -18,10 +18,18 @@ public class Guest {
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	@Column(name="Guest_ID")
 	private int guest_id;
+	@NotNull
+	@Size(min=2, max=30)
+	@Pattern(regexp="^[a-zA-Z]*$") //Allows only characters a-z & A-Z
 	@Column(name="Name")
 	private String name;
+	@NotNull
+	@Size(min=2, max=30)
+	@Pattern(regexp="^[a-zA-Z]*$")
 	@Column(name="Surname")
 	private String surname;
+	@Size(min=2, max=250)
+	@Pattern(regexp="^[a-zA-Z ]*$")//Allows also a space character
 	@Column(name="Description")
 	private String description; //reason visiting establishment
 	@OneToOne(mappedBy="guest")
@@ -58,25 +66,33 @@ public class Guest {
 		this.name = name;
 		this.surname = surname;
 		this.description = description;
-		//this.attendance = new Attendance(entered, left);
 	}
+	public Guest(String name, String surname) {
+		super();
+		this.name = name;
+		this.surname = surname;
+		this.description = null;
+	}
+	/*
 	public Guest(Date entered) {
 		super();
-		this.name = "";
-		this.surname = "";
-		this.description = "";
+		this.name = null;
+		this.surname = null;
+		this.description = null;
 	}
+	*/
 	public Guest() {
 		super();
-		this.name = "";
-		this.surname = "";
-		this.description = "";
+		this.name = null;
+		this.surname = null;
+		this.description = null;
 	}
 	@Override
 	public String toString() {
 		return "Guest [guest_id=" + guest_id + ", name=" + name + ", surname=" + surname + ", description="
 				+ description + ", attendance=" + attendance + "]";
 	}
+	
 	
 	
 }
