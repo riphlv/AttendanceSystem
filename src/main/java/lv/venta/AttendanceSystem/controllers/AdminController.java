@@ -67,13 +67,13 @@ public class AdminController {
 	@PostMapping("/newGuestVisit")
 	public String createGuestVisit(Guest guest, BindingResult result){
 		if(!result.hasErrors()) {
-			crudService.createGuest(guest);
-			System.out.println("<");
-			//crudService.createGuestAttendance(guest, guest.getAttendance().getRegisterIN(), guest.getAttendance().getRegisterOUT());
-			System.out.println("<<");
+			if(crudService.verifyDate(guest.getAttendance())) {
+				crudService.createGuest(guest);
+			}else {
+				return "guest-form";
+			}
 			return "ok";
 		}
-		System.out.println(result);
 		return "guest-form";
 	}
 	@GetMapping("/updateHourlyEmpl")
@@ -144,7 +144,11 @@ public class AdminController {
 	@PostMapping("/updateGuest/{guest_id}")
 	public String updateGuest(@PathVariable(name="guest_id") int guest_id,@ModelAttribute Guest guest) {
 		//Guest temp = crudService.updateGuest(guest_id);
-		crudService.updateGuestByObject(guest_id,guest);
+		if(crudService.verifyDate(guest.getAttendance())) {
+			crudService.updateGuestByObject(guest_id,guest);
+		}else {
+			return "redirect:/admin/updateGuest/"+guest_id;
+		}
 		return "ok";
 	}
 	@GetMapping("/deleteGuest/{guest_id}")

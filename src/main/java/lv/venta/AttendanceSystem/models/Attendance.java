@@ -44,6 +44,16 @@ public class Attendance {
 	}
 	public void setRegisterOUT(LocalDateTime registerOUT) {
 		this.registerOUT = registerOUT;
+		/*
+		try{
+			if(this.registerIN.isAfter(this.registerOUT)) {
+				System.out.println("Error setting attendance");
+			}else {
+				this.registerOUT = registerOUT;
+			}
+		}catch(Exception e) {
+			System.out.println(e);
+		}*/
 	}
 	public int getAttendance_id() {
 		return attendance_id;

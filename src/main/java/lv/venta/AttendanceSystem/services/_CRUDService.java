@@ -25,6 +25,8 @@ public interface _CRUDService {
 	public boolean deleteGuest(Guest guest);
 	public boolean deleteGuest(int id);
 
+	public boolean verifyDate(Attendance attendance);
+
 	
 	
 }

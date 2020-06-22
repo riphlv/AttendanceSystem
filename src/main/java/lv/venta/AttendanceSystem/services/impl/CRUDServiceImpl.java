@@ -262,6 +262,16 @@ public class CRUDServiceImpl implements _CRUDService{
 			return true;
 		}
 	}
+	@Override
+	public boolean verifyDate(Attendance attendance) {
+		//Verify date
+		if(attendance.getRegisterIN().isAfter(attendance.getRegisterOUT())) {
+			return false;
+		}else {
+			return true;
+		}
+		
+	}
 
 	
 }

@@ -29,7 +29,7 @@ public class Guest {
 	@Column(name="Surname")
 	private String surname;
 	@Size(min=2, max=250)
-	@Pattern(regexp="^[a-zA-Z ]*$")//Allows also a space character
+	@Pattern(regexp="^[a-zA-Z0-9 ]*$")//Allows also a space character and numbers
 	@Column(name="Description")
 	private String description; //reason visiting establishment
 	@OneToOne(mappedBy="guest")
